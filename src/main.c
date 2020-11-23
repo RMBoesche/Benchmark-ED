@@ -9,10 +9,12 @@ int main()
 	int i, opcao; //opcao eh uma variavel pra determinar se os valores serao aleatorios ou ordenados
 	int ok = 0, ciclo = 0;
 
-	int cmpsLSE = 0, cmpsABP = 0, cmpsAVL = 0;
-	float tLSE = 0, tABP = 0, tAVL = 0;
+	long int cmpsLSE = 0, cmpsABP = 0, cmpsAVL = 0;
+	float tempo[3][2] = {0}; //Uma matrix TIPO (estrutura)x TEMPO (inserir e consultar)
 
-	int dados[TAMANHO]; //ordenados = 0 e aleatorios = 1
+	int *dados;
+	dados = malloc(TAMANHO * sizeof(int));
+
 	int dadosTotal = 0;
 
 	clock_t start, end;
@@ -41,57 +43,93 @@ int main()
 		cmpsABP = 0;
 		cmpsAVL = 0;
 
+		/*===============================================================================
+                        Início - Lista Simplesmente Encadeada
+		=================================================================================*/
+
 		start = clock();
 
 		for (i = 0; i < dadosTotal; i++)
 			listaLSE = inserirLSE(listaLSE, dados[i]);
 
-		for (i = 0; i < dadosTotal; i += dadosTotal / 10)
+		end = clock();
+
+		tempo[LSE][1] += ((float)(end - start) / CLOCKS_PER_SEC);
+
+		start = clock();
+
+		for (i = 0; i < dadosTotal; i += dadosTotal / 1000)
 			nodoLSE = consultarLSE(listaLSE, dados[i], &cmpsLSE);
 
 		end = clock();
 
-		tLSE += ((float)(end - start) / CLOCKS_PER_SEC * 1000);
+		tempo[LSE][2] += ((float)(end - start) / CLOCKS_PER_SEC);
 
 		listaLSE = destruirLSE(listaLSE);
+		/*===============================================================================
+                        Fim - Lista Simplesmente Encadeada 
+		=================================================================================*/
 
-		//============================================================================
+		/*===============================================================================
+                        Início - Árvore de Pesquisa Binária
+		=================================================================================*/
 
 		start = clock();
 
 		for (i = 0; i < dadosTotal; i++)
 			arvABP = inserirABP(arvABP, dados[i], &cmpsABP);
 
-		for (i = 0; i < dadosTotal; i += dadosTotal / 10)
+		end = clock();
+
+		tempo[ABP][1] += ((float)(end - start) / CLOCKS_PER_SEC);
+
+		start = clock();
+
+		for (i = 0; i < dadosTotal; i += dadosTotal / 1000)
 			nodoABP = consultarABP(arvABP, dados[i], &cmpsABP);
 
 		end = clock();
 
-		tABP += ((float)(end - start) / CLOCKS_PER_SEC * 1000);
+		tempo[ABP][2] += ((float)(end - start) / CLOCKS_PER_SEC);
 
 		arvABP = destruirABP(arvABP);
 
-		//============================================================================
+		/*===============================================================================
+		                        Fim - Árvore de Pesquisa Binária 
+		=================================================================================*/
+
+		/*===============================================================================
+                        Início - Árvore AVL
+		=================================================================================*/
 
 		start = clock();
 
 		for (i = 0; i < dadosTotal; i++)
 			arvAVL = inserirAVL(arvAVL, dados[i], &ok, &cmpsAVL);
 
-		for (i = 0; i < dadosTotal; i += dadosTotal / 10)
+		end = clock();
+
+		tempo[AVL][1] += ((float)(end - start) / CLOCKS_PER_SEC);
+
+		start = clock();
+
+		for (i = 0; i < dadosTotal; i += dadosTotal / 1000)
 			nodoAVL = consultarAVL(arvAVL, dados[i], &cmpsAVL);
 
 		end = clock();
 
-		tAVL += ((float)(end - start) / CLOCKS_PER_SEC * 1000);
+		tempo[AVL][2] += ((float)(end - start) / CLOCKS_PER_SEC);
 
 		arvAVL = destruirAVL(arvAVL);
+
+		/*===============================================================================
+                        Início - Árvore AVL
+		=================================================================================*/
 	}
 
-	printf("- LSE:\n Numero de comparacoes: %d\n Tempo: %f ms\n\n", cmpsLSE, tLSE / 3);
-	printf("- ABP:\n Numero de comparacoes: %d\n Tempo: %f ms\n\n", cmpsABP, tABP / 3);
-	printf("- AVL:\n Numero de comparacoes: %d\n Tempo: %f ms\n\n", cmpsAVL, tAVL / 3);
-	printf("\n tempo total: %f ms\n\n", (tLSE + tABP + tAVL) / 3);
+	printf("- LSE\n cmps: %ld \n t inserir: %f s\n t consultar: %f s\n\n", cmpsLSE, tempo[LSE][1] / 3, tempo[LSE][2] / 3);
+	printf("- ABP\n cmps: %ld \n t inserir: %f s\n t consultar: %f s\n\n", cmpsABP, tempo[ABP][1] / 3, tempo[ABP][2] / 3);
+	printf("- AVL\n cmps: %ld \n t inserir: %f s\n t consultar: %f s\n\n", cmpsAVL, tempo[AVL][1] / 3, tempo[AVL][2] / 3);
 
 	return 0;
 }
