@@ -9,7 +9,7 @@ int main()
 	int i, opcao; //opcao eh uma variavel pra determinar se os valores serao aleatorios ou ordenados
 	int ok = 0, ciclo = 0;
 
-	long int cmpsLSE = 0, cmpsABP = 0, cmpsAVL = 0;
+	int cmpsLSE = 0, cmpsABP = 0, cmpsAVL = 0;
 	float tempo[3][2] = {0}; //Uma matrix TIPO (estrutura)x TEMPO (inserir e consultar)
 
 	int *dados;
