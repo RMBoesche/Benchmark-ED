@@ -54,7 +54,7 @@ int main()
 
 		end = clock();
 
-		tempo[LSE][1] += ((float)(end - start) / CLOCKS_PER_SEC);
+		tempo[LSE][1] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
 
@@ -63,7 +63,7 @@ int main()
 
 		end = clock();
 
-		tempo[LSE][2] += ((float)(end - start) / CLOCKS_PER_SEC);
+		tempo[LSE][2] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		listaLSE = destruirLSE(listaLSE);
 		/*===============================================================================
@@ -81,7 +81,7 @@ int main()
 
 		end = clock();
 
-		tempo[ABP][1] += ((float)(end - start) / CLOCKS_PER_SEC);
+		tempo[ABP][1] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
 
@@ -90,7 +90,7 @@ int main()
 
 		end = clock();
 
-		tempo[ABP][2] += ((float)(end - start) / CLOCKS_PER_SEC);
+		tempo[ABP][2] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		arvABP = destruirABP(arvABP);
 
@@ -109,7 +109,7 @@ int main()
 
 		end = clock();
 
-		tempo[AVL][1] += ((float)(end - start) / CLOCKS_PER_SEC);
+		tempo[AVL][1] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
 
@@ -118,7 +118,7 @@ int main()
 
 		end = clock();
 
-		tempo[AVL][2] += ((float)(end - start) / CLOCKS_PER_SEC);
+		tempo[AVL][2] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		arvAVL = destruirAVL(arvAVL);
 
@@ -127,9 +127,9 @@ int main()
 		=================================================================================*/
 	}
 
-	printf("- LSE\n cmps: %ld \n t inserir: %f s\n t consultar: %f s\n\n", cmpsLSE, tempo[LSE][1] / 3, tempo[LSE][2] / 3);
-	printf("- ABP\n cmps: %ld \n t inserir: %f s\n t consultar: %f s\n\n", cmpsABP, tempo[ABP][1] / 3, tempo[ABP][2] / 3);
-	printf("- AVL\n cmps: %ld \n t inserir: %f s\n t consultar: %f s\n\n", cmpsAVL, tempo[AVL][1] / 3, tempo[AVL][2] / 3);
+	printf("- LSE\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsLSE, tempo[LSE][1] / 3, tempo[LSE][2] / 3);
+	printf("- ABP\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsABP, tempo[ABP][1] / 3, tempo[ABP][2] / 3);
+	printf("- AVL\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsAVL, tempo[AVL][1] / 3, tempo[AVL][2] / 3);
 
 	return 0;
 }
