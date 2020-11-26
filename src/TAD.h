@@ -4,9 +4,7 @@
 #include <time.h>
 
 #define TAMANHO 1000000
-#define LSE 1
-#define ABP 2
-#define AVL 3
+#define CICLOS 5
 
 /*===============================================================================
                         Início - Lista Simplesmente Encadeada

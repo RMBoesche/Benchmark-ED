@@ -53,7 +53,7 @@ NODO_LSE *destruirLSE(NODO_LSE *lista)
 =================================================================================*/
 NODO_ABP *inserirABP(NODO_ABP *arv, int num, int *cmps)
 {
-    *cmps += 1;
+    *cmps = +1;
     if (arv == NULL)
     {
         arv = (NODO_ABP *)malloc(sizeof(NODO_ABP));
@@ -64,7 +64,7 @@ NODO_ABP *inserirABP(NODO_ABP *arv, int num, int *cmps)
     }
     else
     {
-        if (num < arv->num)
+        if (num <= arv->num)
             arv->esq = inserirABP(arv->esq, num, cmps);
         else if (num > arv->num)
         {
@@ -78,6 +78,7 @@ NODO_ABP *inserirABP(NODO_ABP *arv, int num, int *cmps)
 
 NODO_ABP *consultarABP(NODO_ABP *arv, int num, int *cmps)
 {
+    *cmps += 1;
     while (arv != NULL)
     {
         *cmps += 1;
@@ -85,11 +86,11 @@ NODO_ABP *consultarABP(NODO_ABP *arv, int num, int *cmps)
             return arv;
         else
         {
-            *cmps += 1;
             if (arv->num > num)
                 arv = arv->esq;
             else
                 arv = arv->dir;
+            *cmps += 1;
         }
     }
     return NULL;

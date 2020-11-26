@@ -6,46 +6,44 @@ int main()
 	NODO_ABP *arvABP = NULL, *nodoABP = NULL;
 	NODO_AVL *arvAVL = NULL, *nodoAVL = NULL;
 
-	int i, opcao; //opcao eh uma variavel pra determinar se os valores serao aleatorios ou ordenados
-	int ok = 0, ciclo = 0;
-
 	int cmpsLSE = 0, cmpsABP = 0, cmpsAVL = 0;
-	float tempo[3][2] = {0}; //Uma matrix TIPO (estrutura)x TEMPO (inserir e consultar)
+	float tInserirLSE = 0, tInserirABP = 0, tInserirAVL = 0;
+	float tConsultLSE = 0, tConsultABP = 0, tConsultAVL = 0;
 
-	int *dados;
+	int i = 0, ok = 0, ciclo = 0;
+
+	int *dados, opcao = 0, dadosTotal = 0, difPesquisas = 0;
 	dados = malloc(TAMANHO * sizeof(int));
 
-	int dadosTotal = 0;
-
 	clock_t start, end;
+	srand(time(NULL));
 
-	printf("Escolha o numero de dados a serem carregados: \n");
+	printf("Numero de dados: \n");
 	scanf("%d", &dadosTotal);
 
-	printf("Escolha se os valores devem ser ordenados (0) ou aleatorios (1): \n");
+	printf("Dados ordenados (0) ou aleatorios (1): \n");
 	scanf("%d", &opcao);
 
+	difPesquisas = dadosTotal / 5000;
+
 	if (opcao == 0)
+	{
 		for (i = 0; i < dadosTotal; i++)
 			dados[i] = i;
+	}
 
 	else if (opcao == 1)
 	{
-		srand(time(NULL));
-
 		for (i = 0; i < dadosTotal; i++) //CRIA O VETOR COM OS VALORES ALEATORIOS
 			dados[i] = rand() % dadosTotal;
 	}
 
-	for (ciclo = 0; ciclo < 3; ciclo++)
+	for (ciclo = 0; ciclo < CICLOS; ciclo++)
 	{
-		cmpsLSE = 0;
-		cmpsABP = 0;
-		cmpsAVL = 0;
-
 		/*===============================================================================
                         Início - Lista Simplesmente Encadeada
 		=================================================================================*/
+		cmpsLSE = 0;
 
 		start = clock();
 
@@ -54,16 +52,16 @@ int main()
 
 		end = clock();
 
-		tempo[LSE][1] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tInserirLSE += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
 
-		for (i = 0; i < dadosTotal; i += dadosTotal / 1000)
-			nodoLSE = consultarLSE(listaLSE, dados[i], &cmpsLSE);
+		for (i = 0; i < dadosTotal; i += difPesquisas)
+			nodoLSE = consultarLSE(listaLSE, i, &cmpsLSE);
 
 		end = clock();
 
-		tempo[LSE][2] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tConsultLSE += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		listaLSE = destruirLSE(listaLSE);
 		/*===============================================================================
@@ -73,24 +71,29 @@ int main()
 		/*===============================================================================
                         Início - Árvore de Pesquisa Binária
 		=================================================================================*/
+		cmpsABP = 0;
 
 		start = clock();
 
 		for (i = 0; i < dadosTotal; i++)
+		{
 			arvABP = inserirABP(arvABP, dados[i], &cmpsABP);
+		}
 
 		end = clock();
 
-		tempo[ABP][1] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tInserirABP += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
 
-		for (i = 0; i < dadosTotal; i += dadosTotal / 1000)
+		for (i = 0; i < dadosTotal; i += difPesquisas)
+		{
 			nodoABP = consultarABP(arvABP, dados[i], &cmpsABP);
+		}
 
 		end = clock();
 
-		tempo[ABP][2] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tConsultABP += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		arvABP = destruirABP(arvABP);
 
@@ -101,6 +104,7 @@ int main()
 		/*===============================================================================
                         Início - Árvore AVL
 		=================================================================================*/
+		cmpsAVL = 0;
 
 		start = clock();
 
@@ -109,16 +113,16 @@ int main()
 
 		end = clock();
 
-		tempo[AVL][1] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tInserirAVL += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
 
-		for (i = 0; i < dadosTotal; i += dadosTotal / 1000)
+		for (i = 0; i < dadosTotal; i += difPesquisas)
 			nodoAVL = consultarAVL(arvAVL, dados[i], &cmpsAVL);
 
 		end = clock();
 
-		tempo[AVL][2] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tConsultAVL += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		arvAVL = destruirAVL(arvAVL);
 
@@ -127,9 +131,11 @@ int main()
 		=================================================================================*/
 	}
 
-	printf("- LSE\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsLSE, tempo[LSE][1] / 3, tempo[LSE][2] / 3);
-	printf("- ABP\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsABP, tempo[ABP][1] / 3, tempo[ABP][2] / 3);
-	printf("- AVL\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsAVL, tempo[AVL][1] / 3, tempo[AVL][2] / 3);
+	printf("- LSE\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsLSE, tInserirLSE / CICLOS, tConsultLSE / CICLOS);
+	printf("- ABP\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsABP, tInserirABP / CICLOS, tConsultABP / CICLOS);
+	printf("- AVL\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsAVL, tInserirAVL / CICLOS, tConsultAVL / CICLOS);
+
+	free(dados);
 
 	return 0;
 }
