@@ -68,8 +68,6 @@ int main()
 		for (i = 0; i < dadosTotal; i++)
 			arvABP = inserirABP(arvABP, dados[i], &cmpsABP);
 
-		printf("%lu\n", cmpsABP);
-
 		end = clock();
 		tempo[ABP][INSERIR] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
