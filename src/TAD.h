@@ -4,7 +4,8 @@
 #include <time.h>
 
 #define TAMANHO 1000000
-#define CICLOS 5
+#define CICLOS 3
+#define QTD_CONSULTAS 2500
 
 /*===============================================================================
                         Início - Lista Simplesmente Encadeada

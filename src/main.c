@@ -24,19 +24,15 @@ int main()
 	printf("Dados ordenados (0) ou aleatorios (1): \n");
 	scanf("%d", &opcao);
 
-	difPesquisas = dadosTotal / 5000;
+	difPesquisas = dadosTotal / QTD_CONSULTAS;
 
 	if (opcao == 0)
-	{
 		for (i = 0; i < dadosTotal; i++)
 			dados[i] = i;
-	}
 
 	else if (opcao == 1)
-	{
 		for (i = 0; i < dadosTotal; i++) //CRIA O VETOR COM OS VALORES ALEATORIOS
 			dados[i] = rand() % dadosTotal;
-	}
 
 	for (ciclo = 0; ciclo < CICLOS; ciclo++)
 	{
@@ -57,7 +53,7 @@ int main()
 		start = clock();
 
 		for (i = 0; i < dadosTotal; i += difPesquisas)
-			nodoLSE = consultarLSE(listaLSE, i, &cmpsLSE);
+			nodoLSE = consultarLSE(listaLSE, dados[i], &cmpsLSE);
 
 		end = clock();
 
@@ -76,9 +72,7 @@ int main()
 		start = clock();
 
 		for (i = 0; i < dadosTotal; i++)
-		{
 			arvABP = inserirABP(arvABP, dados[i], &cmpsABP);
-		}
 
 		end = clock();
 
@@ -87,9 +81,7 @@ int main()
 		start = clock();
 
 		for (i = 0; i < dadosTotal; i += difPesquisas)
-		{
 			nodoABP = consultarABP(arvABP, dados[i], &cmpsABP);
-		}
 
 		end = clock();
 
