@@ -6,9 +6,8 @@ int main()
 	NODO_ABP *arvABP = NULL, *nodoABP = NULL;
 	NODO_AVL *arvAVL = NULL, *nodoAVL = NULL;
 
-	int cmpsLSE = 0, cmpsABP = 0, cmpsAVL = 0;
-	float tInserirLSE = 0, tInserirABP = 0, tInserirAVL = 0;
-	float tConsultLSE = 0, tConsultABP = 0, tConsultAVL = 0;
+	unsigned long int cmpsLSE = 0, cmpsABP = 0, cmpsAVL = 0, aux = 0;
+	float tempo[ESTRUTURAS][OPERACOES] = {0};
 
 	int i = 0, ok = 0, ciclo = 0;
 
@@ -42,22 +41,18 @@ int main()
 		cmpsLSE = 0;
 
 		start = clock();
-
 		for (i = 0; i < dadosTotal; i++)
 			listaLSE = inserirLSE(listaLSE, dados[i]);
 
 		end = clock();
-
-		tInserirLSE += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tempo[LSE][INSERIR] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
-
 		for (i = 0; i < dadosTotal; i += difPesquisas)
 			nodoLSE = consultarLSE(listaLSE, dados[i], &cmpsLSE);
 
 		end = clock();
-
-		tConsultLSE += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tempo[LSE][CONSULTAR] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		listaLSE = destruirLSE(listaLSE);
 		/*===============================================================================
@@ -70,25 +65,26 @@ int main()
 		cmpsABP = 0;
 
 		start = clock();
-
 		for (i = 0; i < dadosTotal; i++)
 			arvABP = inserirABP(arvABP, dados[i], &cmpsABP);
 
-		end = clock();
+		printf("%lu\n", cmpsABP);
 
-		tInserirABP += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		end = clock();
+		tempo[ABP][INSERIR] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
-
 		for (i = 0; i < dadosTotal; i += difPesquisas)
 			nodoABP = consultarABP(arvABP, dados[i], &cmpsABP);
 
-		end = clock();
+		aux = cmpsABP; //Variavel cmpsABP estava sendo altera nessa parte do codigo
 
-		tConsultABP += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		end = clock();
+		tempo[ABP][CONSULTAR] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+
+		cmpsABP = aux; //Dessa maneira ela continua a mesma.
 
 		arvABP = destruirABP(arvABP);
-
 		/*===============================================================================
 		                        Fim - Árvore de Pesquisa Binária 
 		=================================================================================*/
@@ -99,33 +95,28 @@ int main()
 		cmpsAVL = 0;
 
 		start = clock();
-
 		for (i = 0; i < dadosTotal; i++)
 			arvAVL = inserirAVL(arvAVL, dados[i], &ok, &cmpsAVL);
 
 		end = clock();
-
-		tInserirAVL += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tempo[AVL][INSERIR] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		start = clock();
-
 		for (i = 0; i < dadosTotal; i += difPesquisas)
 			nodoAVL = consultarAVL(arvAVL, dados[i], &cmpsAVL);
 
 		end = clock();
-
-		tConsultAVL += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
+		tempo[AVL][CONSULTAR] += (1000 * (float)(end - start) / CLOCKS_PER_SEC);
 
 		arvAVL = destruirAVL(arvAVL);
-
 		/*===============================================================================
                         Início - Árvore AVL
 		=================================================================================*/
 	}
 
-	printf("- LSE\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsLSE, tInserirLSE / CICLOS, tConsultLSE / CICLOS);
-	printf("- ABP\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsABP, tInserirABP / CICLOS, tConsultABP / CICLOS);
-	printf("- AVL\n cmps: %ld \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsAVL, tInserirAVL / CICLOS, tConsultAVL / CICLOS);
+	printf("- LSE\n cmps: %lu \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsLSE, tempo[LSE][INSERIR] / CICLOS, tempo[LSE][CONSULTAR] / CICLOS);
+	printf("- ABP\n cmps: %lu \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsABP, tempo[ABP][INSERIR] / CICLOS, tempo[ABP][CONSULTAR] / CICLOS);
+	printf("- AVL\n cmps: %lu \n t inserir: %f ms\n t consultar: %f ms\n\n", cmpsAVL, tempo[AVL][INSERIR] / CICLOS, tempo[AVL][CONSULTAR] / CICLOS);
 
 	free(dados);
 

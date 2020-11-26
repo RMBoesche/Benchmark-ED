@@ -16,7 +16,7 @@ NODO_LSE *inserirLSE(NODO_LSE *lista, int num)
     return lista;
 }
 
-NODO_LSE *consultarLSE(NODO_LSE *lista, int num, int *cmps)
+NODO_LSE *consultarLSE(NODO_LSE *lista, int num, unsigned long int *cmps)
 {
     NODO_LSE *nodo = lista;
 
@@ -51,7 +51,7 @@ NODO_LSE *destruirLSE(NODO_LSE *lista)
 /*===============================================================================
                         Início - Árvore de Pesquisa Binária
 =================================================================================*/
-NODO_ABP *inserirABP(NODO_ABP *arv, int num, int *cmps)
+NODO_ABP *inserirABP(NODO_ABP *arv, int num, unsigned long int *cmps)
 {
     *cmps += 1;
     if (arv == NULL)
@@ -76,7 +76,7 @@ NODO_ABP *inserirABP(NODO_ABP *arv, int num, int *cmps)
     return arv;
 }
 
-NODO_ABP *consultarABP(NODO_ABP *arv, int num, int *cmps)
+NODO_ABP *consultarABP(NODO_ABP *arv, int num, unsigned long int *cmps)
 {
     *cmps += 1;
     while (arv != NULL)
@@ -137,7 +137,7 @@ NODO_AVL *rotacao_esquerda(NODO_AVL *pt)
     return pt;
 }
 
-NODO_AVL *rotacao_dupla_direita(NODO_AVL *pt, int *cmps)
+NODO_AVL *rotacao_dupla_direita(NODO_AVL *pt, unsigned long int *cmps)
 {
     NODO_AVL *ptu, *ptv;
 
@@ -160,7 +160,7 @@ NODO_AVL *rotacao_dupla_direita(NODO_AVL *pt, int *cmps)
     return pt;
 }
 
-NODO_AVL *rotacao_dupla_esquerda(NODO_AVL *pt, int *cmps)
+NODO_AVL *rotacao_dupla_esquerda(NODO_AVL *pt, unsigned long int *cmps)
 {
     NODO_AVL *ptu, *ptv;
 
@@ -183,7 +183,7 @@ NODO_AVL *rotacao_dupla_esquerda(NODO_AVL *pt, int *cmps)
     return pt;
 }
 
-NODO_AVL *caso1(NODO_AVL *arv, int *ok, int *cmps)
+NODO_AVL *caso1(NODO_AVL *arv, int *ok, unsigned long int *cmps)
 {
     NODO_AVL *ptu;
 
@@ -200,7 +200,7 @@ NODO_AVL *caso1(NODO_AVL *arv, int *ok, int *cmps)
     return arv;
 }
 
-NODO_AVL *caso2(NODO_AVL *arv, int *ok, int *cmps)
+NODO_AVL *caso2(NODO_AVL *arv, int *ok, unsigned long int *cmps)
 {
     NODO_AVL *ptu;
 
@@ -217,7 +217,7 @@ NODO_AVL *caso2(NODO_AVL *arv, int *ok, int *cmps)
     return arv;
 }
 
-NODO_AVL *inserirAVL(NODO_AVL *arv, int x, int *ok, int *cmps)
+NODO_AVL *inserirAVL(NODO_AVL *arv, int x, int *ok, unsigned long int *cmps)
 {
     /* Insere nodo em uma árvore AVL, onde A representa a raiz da árvore,
   x, a numave a ser inserida e h a altura da árvore */
@@ -280,7 +280,7 @@ NODO_AVL *inserirAVL(NODO_AVL *arv, int x, int *ok, int *cmps)
     return arv;
 }
 
-NODO_AVL *consultarAVL(NODO_AVL *arv, int num, int *cmps)
+NODO_AVL *consultarAVL(NODO_AVL *arv, int num, unsigned long int *cmps)
 {
     while (arv != NULL)
     {
