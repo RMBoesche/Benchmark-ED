@@ -3,9 +3,11 @@
 #include <string.h>
 #include <time.h>
 
-#define TAMANHO 1000000
 #define CICLOS 3
 #define QTD_CONSULTAS 5000
+#define LIMITE_ABP 50000
+#define ORDENADOS 0
+#define ALEATORIOS 1
 
 /*===============================================================================
                         Início - Lista Simplesmente Encadeada

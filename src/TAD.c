@@ -53,26 +53,25 @@ NODO_LSE *destruirLSE(NODO_LSE *lista)
 =================================================================================*/
 NODO_ABP *inserirABP(NODO_ABP *arv, int num, unsigned long int *cmps)
 {
-    *cmps += 1;
     if (arv == NULL)
     {
         arv = (NODO_ABP *)malloc(sizeof(NODO_ABP));
         arv->num = num;
         arv->esq = NULL;
         arv->dir = NULL;
+        *cmps += 1;
         return arv;
+    }
+    else if (num > arv->num)
+    {
+        arv->dir = inserirABP(arv->dir, num, cmps);
+        *cmps += 2;
     }
     else
     {
-        if (num < arv->num)
-            arv->esq = inserirABP(arv->esq, num, cmps);
-        else if (num > arv->num)
-        {
-            arv->dir = inserirABP(arv->dir, num, cmps);
-            *cmps += 1;
-        }
+        arv->esq = inserirABP(arv->esq, num, cmps);
+        *cmps += 3;
     }
-    *cmps += 1;
     return arv;
 }
 
@@ -92,17 +91,6 @@ NODO_ABP *consultarABP(NODO_ABP *arv, int num, unsigned long int *cmps)
                 arv = arv->dir;
             *cmps += 1;
         }
-    }
-    return NULL;
-}
-
-NODO_ABP *destruirABP(NODO_ABP *arv)
-{
-    if (arv != NULL)
-    {
-        destruirABP(arv->esq);
-        destruirABP(arv->dir);
-        free(arv);
     }
     return NULL;
 }
@@ -295,17 +283,6 @@ NODO_AVL *consultarAVL(NODO_AVL *arv, int num, unsigned long int *cmps)
                 arv = arv->dir;
             *cmps += 1;
         }
-    }
-    return NULL;
-}
-
-NODO_AVL *destruirAVL(NODO_AVL *arv)
-{
-    if (arv != NULL)
-    {
-        destruirAVL(arv->esq);
-        destruirAVL(arv->dir);
-        free(arv);
     }
     return NULL;
 }
