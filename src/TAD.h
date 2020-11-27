@@ -3,14 +3,6 @@
 #include <string.h>
 #include <time.h>
 
-#define ESTRUTURAS 3
-#define LSE 1
-#define ABP 2
-#define AVL 3
-#define OPERACOES 2
-#define INSERIR 1
-#define CONSULTAR 2
-
 #define TAMANHO 1000000
 #define CICLOS 3
 #define QTD_CONSULTAS 5000
@@ -38,7 +30,7 @@ NODO_LSE *destruirLSE(NODO_LSE *);
 typedef struct nodoABP NODO_ABP;
 struct nodoABP
 {
-    long int num;
+    int num;
     NODO_ABP *esq;
     NODO_ABP *dir;
 };
